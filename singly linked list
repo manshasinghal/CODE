@@ -1,0 +1,115 @@
+#include <iostream>
+using namespace std;
+class node{
+public:
+int data;
+node *next;
+
+node(int data){
+  this->data=data;
+  this->next=NULL;
+}
+~node(){
+  int value = this->data;
+  if(this->next!=NULL){
+    delete next;
+    this->next=NULL;
+  }
+  cout<<"memory free";
+}
+};
+void insertathead(node* &head , int d){
+  //new node created
+
+  node *temp=new node(d);
+  temp->next=head;
+  head=temp;
+  
+  }
+void insertattail(node* &tail , int d){
+  node *temp = new node(d);
+  tail->next = temp;
+  tail = temp;
+  
+}
+void insertatposition (node * &tail , node* &head ,int position , int d){
+  if(position==0){
+    insertathead(head , d);
+    return;
+}
+   
+  node *temp = head;
+  int cnt = 1;
+  while(cnt < position){
+    temp = temp->next;
+    cnt++;
+    }
+  if(temp->next == NULL){
+    //INSERTING AT LAST POSITION
+    insertattail(tail,d);
+    return;
+  }
+  //creating a node
+  node *nodetoinsert = new node(d);
+  nodetoinsert->next = temp->next;
+  temp->next = nodetoinsert;
+}
+void deletenode(int position , node* &head){
+  //deleting start node
+  if(position == 0){
+    node *temp=head;
+    head=head->next;
+    //memory free start node
+    temp->next = NULL;
+    delete temp;
+}
+  else{
+    node *current=head;
+    node *prev = NULL;
+    int cnt=1;
+    while(cnt<=position){
+      prev = current;
+      current=current->next;
+      cnt++;
+    }
+    prev->next = current->next;
+    current->next=NULL;
+    delete current;
+  }
+  }
+  
+void print(node* &head){
+  node *temp = head;
+  while(temp!=NULL){
+    cout<<temp->data <<endl;
+    temp=temp->next;
+  }
+  cout <<endl;
+}
+  
+int main() {
+  //created a new node
+  node *node1=new node(10);
+  node* head=node1;
+  node* tail=node1;
+  print(head);
+  //insertnodeathead(head , 12);
+  insertattail(tail,12);
+  print(head);
+  insertattail(tail,15);
+  print(head);
+  
+  
+
+
+ // int position;
+  //cin>>position;
+ //
+insertatposition(tail, head , 3 , 40);
+print(head);
+  insertattail(tail,15);
+  print(head);
+    deletenode(4,head);
+  print(head);
+  return 0;
+  }
